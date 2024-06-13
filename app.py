@@ -1,8 +1,8 @@
-import os
+from ultralytics import YOLO
 import PIL
 import streamlit as st
-from ultralytics import YOLO
 import subprocess
+import os
 
 i = 0
 check_item = 0
