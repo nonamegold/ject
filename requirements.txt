@@ -1,1 +1,6 @@
+streamlit
 ultralytics
+YOLO
+PIL
+subprocess
+os
