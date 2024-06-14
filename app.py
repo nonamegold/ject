@@ -4,12 +4,16 @@ import streamlit as st
 from ultralytics import YOLO
 import subprocess
 
+import shutil #test
+
 i = 0
 check_item = 0
 count_pic = 1
 model_path = 'yolo_90.pt'
 output_folder = 'detected_images'  
 class_count = {}
+
+zip_file_path = 'detected_images.zip' #test
 
 st.set_page_config(
     page_title="Mural Detection using YOLOv8",  
@@ -99,12 +103,16 @@ if st.sidebar.button('Detect Objects'):
             st.write("No items were detected !")
             count_pic -= i
             
-if st.sidebar.button('Open Detected Images Folder'):
-    folder_path = os.path.abspath(output_folder)
-    try:
-        if os.name == 'nt':  # สำหรับ Windows
-            os.startfile(folder_path)
-        elif os.name == 'posix':  # สำหรับ macOS และ Linux
-            subprocess.Popen(['open', folder_path] if sys.platform == 'darwin' else ['xdg-open', folder_path])
-    except Exception as e:
-        st.error(f"Could not open folder: {e}")
+# สร้างไฟล์ ZIP จากโฟลเดอร์ที่ตรวจจับได้
+shutil.make_archive('detected_images', 'zip', output_folder)
+st.success("Detection and ZIP file creation completed.")
+
+# ให้ผู้ใช้ดาวน์โหลดไฟล์ ZIP
+if os.path.exists(zip_file_path):
+    with open(zip_file_path, "rb") as fp:
+        btn = st.sidebar.download_button(
+            label="Download ZIP",
+            data=fp,
+            file_name="detected_images.zip",
+            mime="application/zip"
+        )
