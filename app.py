@@ -3,8 +3,7 @@ import PIL
 import streamlit as st
 from ultralytics import YOLO
 import subprocess
-
-import shutil #test
+import shutil 
 
 i = 0
 check_item = 0
@@ -12,8 +11,7 @@ count_pic = 1
 model_path = 'yolo_90.pt'
 output_folder = 'detected_images'  
 class_count = {}
-
-zip_file_path = 'detected_images.zip' #test
+zip_file_path = 'detected_images.zip' 
 
 st.set_page_config(
     page_title="Mural Detection using YOLOv8",  
@@ -103,7 +101,6 @@ if st.sidebar.button('Detect Objects'):
             st.write("No items were detected !")
             count_pic -= i
             
-# สร้างไฟล์ ZIP จากโฟลเดอร์ที่ตรวจจับได้
     shutil.make_archive('detected_images', 'zip', output_folder)
     st.success("Detection and ZIP file creation completed.")
 
@@ -111,14 +108,12 @@ def remove_files():
     try:
         shutil.rmtree(output_folder)
         os.remove(zip_file_path)
-        st.success("Images and ZIP file deleted after download.")
     except Exception as e:
         st.error(f"Error deleting files: {e}")
 
-# ให้ผู้ใช้ดาวน์โหลดไฟล์ ZIP และลบไฟล์หลังจากดาวน์โหลด
 if os.path.exists(zip_file_path):
     with open(zip_file_path, "rb") as fp:
-        btn = st.download_button(
+        btn = st.sidebar.download_button(
             label="Download ZIP",
             data=fp,
             file_name="detected_images.zip",
