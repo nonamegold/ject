@@ -104,15 +104,24 @@ if st.sidebar.button('Detect Objects'):
             count_pic -= i
             
 # สร้างไฟล์ ZIP จากโฟลเดอร์ที่ตรวจจับได้
-shutil.make_archive('detected_images', 'zip', output_folder)
-st.success("Detection and ZIP file creation completed.")
+    shutil.make_archive('detected_images', 'zip', output_folder)
+    st.success("Detection and ZIP file creation completed.")
 
-# ให้ผู้ใช้ดาวน์โหลดไฟล์ ZIP
+def remove_files():
+    try:
+        shutil.rmtree(output_folder)
+        os.remove(zip_file_path)
+        st.success("Images and ZIP file deleted after download.")
+    except Exception as e:
+        st.error(f"Error deleting files: {e}")
+
+# ให้ผู้ใช้ดาวน์โหลดไฟล์ ZIP และลบไฟล์หลังจากดาวน์โหลด
 if os.path.exists(zip_file_path):
     with open(zip_file_path, "rb") as fp:
-        btn = st.sidebar.download_button(
+        btn = st.download_button(
             label="Download ZIP",
             data=fp,
             file_name="detected_images.zip",
-            mime="application/zip"
+            mime="application/zip",
+            on_click=remove_files
         )
