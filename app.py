@@ -8,7 +8,7 @@ import shutil
 i = 0
 check_item = 0
 count_pic = 1
-model_path = 'yolo_90.pt'
+model_path = 'Yolo_mural_85.pt'
 output_folder = 'detected_images'  
 class_count = {}
 zip_file_path = 'detected_images.zip' 
